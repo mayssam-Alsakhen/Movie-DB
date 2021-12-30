@@ -21,7 +21,19 @@ app.get(['/movies/read'], (req,res) =>{
 })
 
 
+app.get('/movies/read/by-date' , (req, res) => {
+    res.send({status:200, data: movies.sort((a,b) => b.year - a.year)})
+})
 
+app.get(['/movies/read/by-rating'], (req, res) => {
+    res.send({status:200, data: movies.sort((a, b) => b.rating - a.rating)})
+})
+
+app.get([' /movies/read/by-title'], (req,res) => {
+    res.send({status:200, data: movies.sort((a,b) => a.title.localeCompare(b.title))})
+})
+
+ 
 app.get(['/movies/update'], (req,res) =>{
     res.send()
 })

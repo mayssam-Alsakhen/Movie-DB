@@ -12,21 +12,23 @@ app.get(['/hello', '/hello/:id'] , (req, res) => {
     res.status(200).send({status:200, message:`Hello, ${req.params.id}`}) 
 })
 
-app.get(['/movie/create']), (req,res) =>{
+app.get(['/movie/create'], (req,res) =>{
     res.send()
-}
+})
 
-app.get(['/movies/read']), (req,res) =>{
+app.get(['/movies/read'], (req,res) =>{
     res.send( {status:200, data: movies} )
-}
+})
 
-app.get(['/movies/update']), (req,res) =>{
-    res.send()
-}
 
-app.get(['/movies/delete']), (req,res) =>{
+
+app.get(['/movies/update'], (req,res) =>{
     res.send()
-}
+})
+
+app.get(['/movies/delete'], (req,res) =>{
+    res.send()
+})
 
 
 

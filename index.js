@@ -60,8 +60,40 @@ app.get('/movies/read/id/:id', (req,res) => {
 
 
  
-app.get('/movies/update', (req,res) =>{
-    res.send()
+app.get('/movies/update/:id', (req,res) =>{
+    if(req.query.id){
+   if(Numberr(req.params.id) >= 0 && req.params.id < movies.length){
+    if(!req.query.title && !req.query.year && !req.query.rating){
+        res.status(404).send({status:404, error:true, message:`what do you want to update?!`})
+    }
+    else if (req.query.year && ( req.query.year > new Date().getFullYear() || req.query.year < 1895 || req.query.year.length != 4 || isNaN(req.query.year) )){
+        res.status(404).send({status:404, error:true, message:'The year is not exist'})
+    }
+    else if(req.query.rating && (isNaN(req.query.rating) || req.query.rating >10 || req.query.rating < 0)){
+        res.status(404).send({status:404, error:true, message:'The rating is not exist'})
+    }
+    else{
+        let Movie1={
+            title : `${req.query.title || movies[req.params.id].title }`,
+            year : `${req.query.year || movies[req.params.id].year}`,
+            rating : `${req.query.rating || movies[req.params.id].rating}`
+        }
+        movies.splice(req.params.id, 1, Movie1)
+
+
+        res.status(200).send({status:200, data: movies[req.params.id]})
+
+    }
+    
+   }
+   else{
+    res.status(404).send({status:404, error:true, message:`this id : ${req.params.id} is not exist`})
+}
+
+   }
+   else{
+    res.status(404).send({status:404, error:true, message:`Enter the movie id`})
+}
 })
 
 app.get('/movies/delete/:id', (req,res) =>{

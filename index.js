@@ -8,12 +8,24 @@ const movies = [
     { title: 'الإرهاب والكباب', year: 1992, rating: 6.2 }
 ]
 
-app.get('/hello', '/hello/:id', (req, res) => {
+app.get(['/hello', '/hello/:id'], (req, res) => {
     res.status(200).send({status:200, message:`Hello, ${req.params.id}`}) 
 })
 
 app.get('/movie/create', (req,res) =>{
-    res.send()
+    if(req.query.title && req.query.year && req.query.year.length == 4 && !isNaN(req.query.year)){
+        let newMovie={
+            title: req.query.title, 
+            year: req.query.year,
+            rating : req.query.rating ? req.query.rating : 4}
+       
+            movies.push(newMovie)
+            res.status(200).send({status: 200, data: movies})
+            
+       }else{
+       
+        res.status(403).send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
+       }
 })
 
 app.get('/movies/read', (req,res) =>{
@@ -46,29 +58,23 @@ app.get('/movies/read/id/:id', (req,res) => {
     }
 })
 
-app.get('movies/add', (req,res) => {
 
-    if(req.query.title && req.query.year && req.query.year.length == 4 && !isNaN(req.query.year)){
-     let newMovie={
-         title: req.query.title, 
-         year: req.query.year,
-         rating : req.query.rating ? req.query.rating : 4}
-    
-         movies.push(newMovie)
-         res.status(200).send({status: 200, data: movies})
-         
-    }else{
-    
-     res.status(403).send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
-    }
-    })
  
 app.get('/movies/update', (req,res) =>{
     res.send()
 })
 
-app.get('/movies/delete', (req,res) =>{
-    res.send()
+app.get('/movies/delete/:id', (req,res) =>{
+    if(req.params.id){
+        if(Number(req.params.id) >= 0 && req.params.id < movies.length){
+            movies.splice(req.params.id,1);
+            res.status(200).send(({status:200, data: movies}))
+        }else{
+            res.status(404).send({status:404, error:true, message:`The movie ${req.params.id} does not exist`})
+        }
+    }else{
+        res.status(404).send({status:404, error:true, message:`Enter the id of the movie`})
+    }
 })
 
 

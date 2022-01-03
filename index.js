@@ -90,6 +90,7 @@ app.get('/movies/update/:id', (req,res) =>{
     res.status(404).send({status:404, error:true, message:`this id : ${req.params.id} is not exist`})
 }
 
+
    }
    else{
     res.status(404).send({status:404, error:true, message:`Enter the movie id`})

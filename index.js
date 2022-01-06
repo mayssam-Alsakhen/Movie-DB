@@ -12,7 +12,7 @@ app.get(['/hello', '/hello/:id'], (req, res) => {
     res.status(200).send({status:200, message:`Hello, ${req.params.id}`}) 
 })
 
-app.get('/movie/create', (req,res) =>{
+app.post('/movie/create', (req,res) =>{
     if(req.query.title && req.query.year && req.query.year.length == 4 && !isNaN(req.query.year)){
         let newMovie={
             title: req.query.title, 
@@ -45,7 +45,7 @@ app.get(' /movies/read/by-title', (req,res) => {
     res.send({status:200, data: movies.sort((a,b) => a.title.localeCompare(b.title))})
 })
 
-app.get('/movies/read/id/:id', (req,res) => {
+app.get('/movies/read/:id', (req,res) => {
     if(req.params.id){
         if(Number(req.params.id) >=0 && (req.params.id) < movies.length){
             res.send({status:200, data:[res.params.id]})
@@ -60,7 +60,7 @@ app.get('/movies/read/id/:id', (req,res) => {
 
 
  
-app.get('/movies/update/:id', (req,res) =>{
+app.put('/movies/update/:id', (req,res) =>{
     if(req.query.id){
    if(Numberr(req.params.id) >= 0 && req.params.id < movies.length){
     if(!req.query.title && !req.query.year && !req.query.rating){
@@ -97,7 +97,7 @@ app.get('/movies/update/:id', (req,res) =>{
 }
 })
 
-app.get('/movies/delete/:id', (req,res) =>{
+app.delete('/movies/delete/:id', (req,res) =>{
     if(req.params.id){
         if(Number(req.params.id) >= 0 && req.params.id < movies.length){
             movies.splice(req.params.id,1);
@@ -138,4 +138,7 @@ app.get('/time', (req, res)  => {
 
 app.get('/', (req, res) => res.send('ok'))
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+  })

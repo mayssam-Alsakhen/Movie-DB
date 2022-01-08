@@ -1,12 +1,26 @@
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')   
 const port = 3000
+app.use(express.json())
+
+const URI = "mongodb+srv://Mayssam:Misso18@#$.@moviedb.981zv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+
+
 const movies = [
     { title: 'Jaws', year: 1975, rating: 8 },
     { title: 'Avatar', year: 2009, rating: 7.8 },
     { title: 'Brazil', year: 1985, rating: 8 },
     { title: 'الإرهاب والكباب', year: 1992, rating: 6.2 }
 ]
+
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
+db.once("open", function () {
+    console.log("Successfully connected to MongoDB database!");
+});
 
 app.get(['/hello', '/hello/:id'], (req, res) => {
     res.status(200).send({status:200, message:`Hello, ${req.params.id}`}) 
